@@ -2,10 +2,9 @@
 
 Puzzler is a low configuration, stateful migration manager for Node.js.
 
-   
 ## Installation
 
-npm install `@spokedev/puzzler` --save-dev;
+`npm install @spokedev/puzzler --save-dev`;
 
 ## Core Terminology
 
@@ -30,7 +29,6 @@ module.exports = {
     pool_size: { min: 0, max: 1 }
   }
 };
-
 ```
 
 ## State Management
@@ -40,12 +38,12 @@ Puzzler will create a migrations history table in your db which contains the his
 ## API
 
 Puzzler supports three actions:   
-   
+
 ### Make
 
 Creates a new template migration file in target directory, with given name.   
 
-`puzzler make --transactionDir=<transactionDir> --migrationName=addClientTable`
+`./node_modules/bin/puzzler make --transactionDir=<transactionDir> --migrationName=addClientTable`
 
 [REQUIRED] transactionDir => The location to put the new transaction template.    
 [OPTIONAL] migrationName => The name to give to the new transaction. Defaults to migration.    
@@ -54,7 +52,7 @@ Creates a new template migration file in target directory, with given name.
 
 Carries out up migrations in timestamp order.    
 
-`puzzler migrate --transactionDir=<transactionDir> --config=config.js --partial=1`
+`./node_modules/bin/puzzler migrate --transactionDir=<transactionDir> --config=config.js --partial=1`
 
 [REQUIRED] transactionDir => The location to source transactions from.     
 [REQUIRED] config => The location of config file (see Configuration).
@@ -64,7 +62,7 @@ Carries out up migrations in timestamp order.
 
 Carries out down rollbacks in timestamp order.    
 
-`puzzler rollback --transactionDir=<transactionDir> --config=config.js --partial=1`
+`./node_modules/bin/puzzler rollback --transactionDir=<transactionDir> --config=config.js --partial=1`
 
 [REQUIRED] transactionDir => The location to source transactions from.     
 [REQUIRED] config => The location of config file (see Configuration).
