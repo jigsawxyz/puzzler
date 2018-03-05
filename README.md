@@ -34,7 +34,7 @@ module.exports = {
 
 Puzzler will create a migrations history table in your db which contains the history of every migration carried out. This is used to track the current state of the db, and ensure the correct migrations are carried out. 
 
-## API
+## CLI
 Puzzler supports three actions. 
 
 ### Make
@@ -54,7 +54,7 @@ Carries out up migrations in timestamp order.
 
 [REQUIRED] transactionDir => The location to source transactions from.     
 [REQUIRED] config => The location of config file (see Configuration).   
-[OPTIONAL] partial => Option to carry out a specified number of up transactions. 
+[OPTIONAL] partial => Option to carry out a specified number of up transactions. Defaults to 0 (i.e. run all migrations).
 
 ### Rollback
 
@@ -64,4 +64,46 @@ Carries out down rollbacks in timestamp order.
 
 [REQUIRED] transactionDir => The location to source transactions from.     
 [REQUIRED] config => The location of config file (see Configuration).   
-[OPTIONAL] partial => Option to carry out a specified number of up transactions. 
+[OPTIONAL] partial => Option to carry out a specified number of up transactions. Defaults to 0 (i.e. run all migrations). 
+
+## Module
+
+Puzzler can be used as part of a wider codebase by requiring the module. When used this way it expects to be provided a knex.js connection pool:
+
+```js
+const puzzler = require('@spokedev/puzzler');
+const knex = require('knex');
+
+const pool = knex({
+  client: 'pg',
+  version: '0.0',
+  connection: {
+    user: 'user',
+    password: 'password',
+    host: 'localhost',
+    database: 'databaseName',
+    port: 2567
+  },
+  pool: { min: 0, max: 1 }
+});
+
+// make a new transaction
+puzzler.make({
+  transactionDir: `${__dirname}/transactions`,
+  migrationName: 'addClientsTable'
+});
+
+// run all migrations
+puzzler.migrate({         
+  transactionDir: `${__dirname}/transactions`,
+  pool: pool,
+  partial: 0 
+});
+
+// rollback all migrations
+puzzler.rollback({         
+  transactionDir: `${__dirname}/transactions`,
+  pool: pool,
+  partial: 0 
+});
+```
