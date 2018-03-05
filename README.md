@@ -2,6 +2,7 @@
 
 Puzzler is a low configuration, stateful migration manager for Node.js.
 
+   
 ## Installation
 
 npm install `@spokedev/puzzler` --save-dev;
@@ -12,6 +13,7 @@ Transaction => A single up/down pair of actions to take.
 Migrate => Run a set of up transactions.   
 Rollback => Run a set of down transactions.   
 
+   
 ## Configuration
 
 Puzzler expects database credentials to be provided via config file:
@@ -37,8 +39,8 @@ Puzzler will create a migrations history table in your db which contains the his
 
 ## API
 
-Puzzler supports three actions:
-
+Puzzler supports three actions:   
+   
 ### Make
 
 Creates a new template migration file in target directory, with given name.   
