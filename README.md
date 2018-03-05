@@ -12,8 +12,7 @@ Transaction => A single up/down pair of actions to take.
 Migrate => Run a set of up transactions.   
 Rollback => Run a set of down transactions.   
 
-   
-## Configuration
+## Configuration
 
 Puzzler expects database credentials to be provided via config file:
 
