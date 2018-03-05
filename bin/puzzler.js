@@ -36,18 +36,23 @@ function validateOptions(options) {
 }
 
 function createPool(config) {
-  return knex({
-    client: 'pg',
-    version: '0.0',
-    connection: {
-      user: config.database.user,
-      password: config.database.password,
-      host: config.database.host,
-      database: config.database.name,
-      port: config.database.port
-    },
-    pool: config.database.pool_size || { min: 0, max: 1 }
-  });
+  try {
+    return knex({
+      client: 'pg',
+      version: '0.0',
+      connection: {
+        user: config.database.user,
+        password: config.database.password,
+        host: config.database.host,
+        database: config.database.name,
+        port: config.database.port
+      },
+      pool: config.database.pool_size || { min: 0, max: 1 }
+    });
+  } catch (e) {
+    console.log(`ERROR: unable to establish database connection => ${e.message}`);
+    process.exit(1);
+  }
 }
 
 // driver function which runs when file is executed directly:
