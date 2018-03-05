@@ -2,7 +2,7 @@
 
 Puzzler is a low configuration, stateful migration manager for Node.js.
 
-## Installation
+## Installation
 
 `npm install @spokedev/puzzler --save-dev`;
 
@@ -36,10 +36,9 @@ module.exports = {
 Puzzler will create a migrations history table in your db which contains the history of every migration carried out. This is used to track the current state of the db, and ensure the correct migrations are carried out. 
 
 ## API
+Puzzler supports three actions. 
 
-Puzzler supports three actions:   
-
-### Make
+### Make
 
 Creates a new template migration file in target directory, with given name.   
 
