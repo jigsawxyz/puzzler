@@ -53,7 +53,7 @@ Carries out up migrations in timestamp order.
 `./node_modules/bin/puzzler migrate --transactionDir=<transactionDir> --config=config.js --partial=1`
 
 [REQUIRED] transactionDir => The location to source transactions from.     
-[REQUIRED] config => The location of config file (see Configuration).
+[REQUIRED] config => The location of config file (see Configuration).   
 [OPTIONAL] partial => Option to carry out a specified number of up transactions. 
 
 ### Rollback
@@ -63,5 +63,5 @@ Carries out down rollbacks in timestamp order.
 `./node_modules/bin/puzzler rollback --transactionDir=<transactionDir> --config=config.js --partial=1`
 
 [REQUIRED] transactionDir => The location to source transactions from.     
-[REQUIRED] config => The location of config file (see Configuration).
+[REQUIRED] config => The location of config file (see Configuration).   
 [OPTIONAL] partial => Option to carry out a specified number of up transactions. 
