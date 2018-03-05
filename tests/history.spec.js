@@ -60,15 +60,78 @@ describe('history', () => {
 
 
   describe('#insertMigrationRecord', () => {
+    beforeEach(async () => {
+      await tracker.install();
+    });
 
+    afterEach(async () => {
+      await tracker.uninstall();
+    });
+
+    it('should save a migration record', async () => {
+      let querySave;
+      tracker.on('query', query => {
+        querySave = query;
+        query.response({})
+      });
+      await history.insertMigrationRecord({ 
+        pool: this.connectionPool, 
+        action: 'migrate', 
+        migration: { meta: { name: 'newMigration', hash: '124fewhjbfg' }} 
+      });
+      querySave.bindings[0].should.equal('migrate');
+      querySave.bindings[1].should.equal('124fewhjbfg');
+      querySave.bindings[2].should.equal('newMigration');
+    });
   });
 
 
   describe('#updateState', () => {
+    beforeEach(async () => {
+      await tracker.install();
+    });
 
+    afterEach(async () => {
+      await tracker.uninstall();
+    });
+
+    it('should save all migration record', async () => {
+      let querySave;
+      tracker.on('query', query => {
+        querySave = query;
+        query.response({})
+      });
+
+      migrationSet = [{ meta: { name: 'newMigration', hash: '124fewhjbfg' }}];
+      await history.updateState({ 
+        pool: this.connectionPool, 
+        action: 'migrate', 
+        migrationSet 
+      });
+      querySave.bindings[0].should.equal('migrate');
+      querySave.bindings[1].should.equal('124fewhjbfg');
+      querySave.bindings[2].should.equal('newMigration');
+    });
   });
 
   describe('#parseHistory', () => {
+    const migrate = { action: 'migrate', migration_hash: '123' };
+    const rollback = { action: 'rollback', migration_hash: '123' };
 
+    it('should return an empty array if no transactions', () => {
+      history.parseHistory({ state: [] }).should.eql([]);
+    });
+
+    it('should return all applied transactions', () => {
+      history.parseHistory({ state: [ migrate ] }).should.eql([migrate.migration_hash]);
+    });
+
+    it('should handle rollbacks', () => {
+      history.parseHistory({ state: [ migrate, rollback ] }).should.eql([]);
+    });
+
+    it('should handle rollbacks and migrations', () => {
+      history.parseHistory({ state: [ migrate, rollback, migrate ] }).should.eql([migrate.migration_hash]);
+    });
   });
 });
