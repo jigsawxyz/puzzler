@@ -85,35 +85,6 @@ describe('history', () => {
     });
   });
 
-
-  describe('#updateState', () => {
-    beforeEach(async () => {
-      await tracker.install();
-    });
-
-    afterEach(async () => {
-      await tracker.uninstall();
-    });
-
-    it('should save all migration record', async () => {
-      let querySave;
-      tracker.on('query', query => {
-        querySave = query;
-        query.response({})
-      });
-
-      migrationSet = [{ meta: { name: 'newMigration', hash: '124fewhjbfg' }}];
-      await history.updateState({ 
-        pool: this.connectionPool, 
-        action: 'migrate', 
-        migrationSet 
-      });
-      querySave.bindings[0].should.equal('migrate');
-      querySave.bindings[1].should.equal('124fewhjbfg');
-      querySave.bindings[2].should.equal('newMigration');
-    });
-  });
-
   describe('#parseHistory', () => {
     const migrate = { action: 'migrate', migration_hash: '123' };
     const rollback = { action: 'rollback', migration_hash: '123' };
