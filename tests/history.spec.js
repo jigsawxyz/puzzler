@@ -94,7 +94,7 @@ describe('history', () => {
     });
 
     it('should return all applied transactions', () => {
-      history.parseHistory({ state: [ migrate ] }).should.eql([migrate.migration_hash]);
+      history.parseHistory({ state: [ migrate ] }).should.eql([{ migration_hash: migrate.migration_hash, action: "migrate"}]);
     });
 
     it('should handle rollbacks', () => {
@@ -102,7 +102,7 @@ describe('history', () => {
     });
 
     it('should handle rollbacks and migrations', () => {
-      history.parseHistory({ state: [ migrate, rollback, migrate ] }).should.eql([migrate.migration_hash]);
+      history.parseHistory({ state: [ migrate, rollback, migrate ] }).should.eql([{ migration_hash: migrate.migration_hash, action: "migrate"}]);
     });
   });
 });

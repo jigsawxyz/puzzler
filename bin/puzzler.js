@@ -4,6 +4,7 @@ const knex = require('knex');
 const path = require('path');
 const { migrate, rollback, make } = require('../index');
 
+const debug = require('debug')('puzzler');
 const optionDefinitions = [
   { name: 'action', type: String, defaultOption: true, description: 'action to take' },
   { name: 'transactionDir', type: String, alias: 't', description: 'directory containing transactions', defaultValue: `${__dirname}/transactions` },
@@ -37,6 +38,7 @@ function validateOptions(options) {
 
 function createPool(config) {
   try {
+    debug('running make');
     return knex({
       client: 'pg',
       version: '0.0',
@@ -59,9 +61,11 @@ function createPool(config) {
 if (require.main === module) {
   const options = commandLineArgs(optionDefinitions);
   const validatedOptions = validateOptions(options);
-
+  
+  debug('puzzler ready');
   switch (options.action) {
     case 'migrate':
+      debug('running migrate');
       migrate({
         transactionDir: options.transactionDir,
         pool: createPool(validatedOptions.config),
@@ -69,6 +73,7 @@ if (require.main === module) {
       });
       break;
     case 'rollback':
+      debug('running rollback');
       rollback({
         transactionDir: options.transactionDir,
         pool: createPool(validatedOptions.config),
@@ -76,6 +81,7 @@ if (require.main === module) {
       });
       break;
     case 'make':
+      debug('running make');
       make({
         transactionDir: options.transactionDir,
         migrationName: options.migrationName

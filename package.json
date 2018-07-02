@@ -18,6 +18,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "command-line-args": "^5.0.2",
+    "debug": "^3.1.0",
     "knex": "^0.14.4",
     "pg": "^7.4.1",
     "require-all": "^2.2.0"
